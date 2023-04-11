@@ -1,6 +1,5 @@
 import styles from "./CallMyPokemon.module.css";
 import { FormEvent } from "react";
-import { parsePhoneNumber, PhoneNumber } from "libphonenumber-js/max";
 type CustomElements = HTMLFormControlsCollection & {
   phoneNumber: HTMLInputElement;
 };
@@ -20,18 +19,18 @@ export default function CallMyPokemon() {
 
           const target = event.currentTarget.elements;
           const phoneNumberRawValue = target.phoneNumber.value;
-          let phoneNumber: PhoneNumber | undefined;
+          let phoneNumber: string | undefined;
           try {
-            phoneNumber = parsePhoneNumber(phoneNumberRawValue, "FR");
+            phoneNumber = parsePhoneNumberFR(phoneNumberRawValue);
           } catch (e) {
             console.log(e);
             return;
           }
 
-          if (phoneNumber === undefined || !phoneNumber.isValid()) {
+          if (phoneNumber === "" || phoneNumber === undefined ) {
             return;
           }
-          alert(`Calling ${phoneNumber.formatInternational()}`);
+          alert(`Calling ${phoneNumber}`);
         }}
       >
         <label htmlFor="phoneNumber">Phone Number</label>
@@ -45,4 +44,17 @@ export default function CallMyPokemon() {
       </form>
     </div>
   );
+}
+
+function parsePhoneNumberFR(num: string){
+  console.log(num);
+  let parsedPhone = "+33";
+  if (num.length != 10){
+    return ""
+  }
+  for (let i = 0; i<5; i++){
+    parsedPhone += " " + num[2*i] + num[2*i+1];
+  }
+  console.log(parsedPhone);
+  return parsedPhone
 }

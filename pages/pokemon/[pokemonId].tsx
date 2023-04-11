@@ -15,9 +15,12 @@ import { Layout } from "@/components/Layout";
 import { TypesList, CallMyPokemon } from "@/components/Pokemon";
 import { getPokemonId } from "@/services/format/pokemon";
 import { useEffect, useState } from "react";
-import { capitalize } from "lodash";
 
 const inter = Inter({ subsets: ["latin"] });
+
+function capitalize(string : String) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 export async function getServerSideProps(context: NextPageContext) {
   const pokemonId = context.query.pokemonId;
